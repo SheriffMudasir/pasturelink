@@ -29,7 +29,17 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        {/* Navbar */}
+        <nav>
+          <a href="/">Home</a>
+          <a href="/shop">Marketplace</a>
+          <a href="/invest">Wealth</a>
+        </nav>
+
+        {/* Page Content */}
+        <main>{children}</main>
+
+        {/* External Script */}
         <Script src="https://qa.interswitchng.com/collections/public/javascripts/inline-checkout.js" strategy="lazyOnload" />
       </body>
     </html>
