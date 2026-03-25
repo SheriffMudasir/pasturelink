@@ -7,7 +7,7 @@ export default function InvestPage() {
     <main className="min-h-screen bg-[#E8F5E9] p-8">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-4 pt-12">
-          <h1 className="text-5xl font-black text-[#004D40] tracking-tight">Wealth Management</h1>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#004D40] tracking-tight">Wealth Management</h1>
           <p className="text-xl text-[#004D40]/80 font-medium max-w-2xl mx-auto">
             Fund verified breeding herds yielding high ROIs, backed by geospatial Tracking directly via PastureLink.
           </p>
@@ -38,7 +38,7 @@ export default function InvestPage() {
               </CardHeader>
               <CardContent className="flex-grow flex flex-col justify-end mt-4">
                  <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">Minimum Stake</p>
-                 <p className="text-4xl font-black text-[#004D40]">₦{herd.minimumStakeNaira.toLocaleString()}</p>
+                 <p className=" text-3xl md:text-4xl text-center md:text-left font-black text-[#004D40]">₦{herd.minimumStakeNaira.toLocaleString()}</p>
               </CardContent>
               <CardFooter className="pt-0">
                 <InterswitchPayButton 
