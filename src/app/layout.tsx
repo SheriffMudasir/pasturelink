@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import Navbar from "./Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,11 +31,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {/* Navbar */}
-        <nav className="flex justify-center gap-8 py-4 /*bg-[#E8F5E9]*/ shadow-md">
-          <a href="/"  className="text-[#004D40] font-bold hover:underline">Home</a>
-          <a href="/shop" className="text-[#004D40] font-bold hover:underline">Marketplace</a>
-          <a href="/invest" className="text-[#004D40] font-bold hover:underline">Wealth</a>
-        </nav>
+        <Navbar />
 
         {/* Page Content */}
         <main>{children}</main>
