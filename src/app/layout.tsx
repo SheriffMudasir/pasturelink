@@ -30,10 +30,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {/* Navbar */}
-        <nav>
-          <a href="/">Home</a>
-          <a href="/shop">Marketplace</a>
-          <a href="/invest">Wealth</a>
+        <nav className="flex justify-center gap-8 py-4 /*bg-[#E8F5E9]*/ shadow-md">
+          <a href="/"  className="text-[#004D40] font-bold hover:underline">Home</a>
+          <a href="/shop" className="text-[#004D40] font-bold hover:underline">Marketplace</a>
+          <a href="/invest" className="text-[#004D40] font-bold hover:underline">Wealth</a>
         </nav>
 
         {/* Page Content */}
