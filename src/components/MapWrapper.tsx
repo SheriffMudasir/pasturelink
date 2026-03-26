@@ -7,6 +7,6 @@ const MapClient = dynamic(
   { ssr: false }
 );
 
-export function MapWrapper() {
-  return <MapClient />;
+export function MapWrapper({ markers }: { markers: any[] }) {
+  return <MapClient markers={markers} />;
 }

@@ -1,68 +1,101 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
+import { createPendingTransaction, confirmTransaction } from '@/app/actions/payment';
+import { showToast } from '@/components/Toast';
 
 interface PayButtonProps {
   amountNaira: number;
   customerEmail: string;
-  itemType: 'MARKETPLACE' | 'INVESTMENT';
-  itemId: string;
-  buttonText: string;
+  productId: string;
+  userId?: string;
+  itemType?: 'MARKETPLACE' | 'INVESTMENT';
 }
 
-export function InterswitchPayButton({ amountNaira, customerEmail, itemType, itemId, buttonText }: PayButtonProps) {
-  const [loading, setLoading] = useState(false);
+export default function InterswitchPayButton({ amountNaira, customerEmail, productId, userId = "UNKNOWN", itemType = "MARKETPLACE" }: PayButtonProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const router = useRouter();
 
-  const handlePayment = async () => {
-    setLoading(true);
-    
-    // 1. Kobo Conversion (CRITICAL for Interswitch)
+  const handleCheckout = async () => {
+    setIsProcessing(true);
+
+    if (userId === "UNKNOWN" || !userId) {
+      showToast("Please log in before making a purchase.", "error");
+      window.location.href = '/login';
+      return;
+    }
+
     const amountKobo = (amountNaira * 100).toString();
-    const transactionRef = `REF_${itemType}_${Date.now()}`;
+    const trxRef = `KW_${Date.now()}`;
+    
+    try {
+      await createPendingTransaction(productId, amountNaira, trxRef);
+    } catch (err) {
+      showToast("Failed to initialize secure transaction.", "error");
+      setIsProcessing(false);
+      return;
+    }
 
-    // 2. The Interswitch Inline Script config
     const paymentParams = {
-      merchantCode: process.env.NEXT_PUBLIC_MERCHANT_CODE || "MX276072", 
-      payItemID: process.env.NEXT_PUBLIC_PAY_ITEM_ID || "Default_Payable_MX276072", // Get this from your Interswitch dashboard
-      customerEmail: customerEmail,
-      redirectURL: "http://localhost:3000/dashboard", // Send to the Map Dashboard on success!
-      text: buttonText,
-      mode: 'TEST',
-      transactionReference: transactionRef,
+      merchant_code: "MX6072",
+      pay_item_id: "9405967",
+      cust_email: customerEmail,
+      site_redirect_url: window.location.origin + (itemType === 'INVESTMENT' ? '/dashboard' : '/orders'),
+      txn_ref: trxRef,
       amount: amountKobo,
-      currency: "566", // NGN
-      style: {
-          theme: 'dark', // Fits Kwara NG
-      },
-      onComplete: function(response: any) {
-        console.log("Interswitch Response: ", response);
-        // If response is successful, redirect to dashboard to see the "Proof of Life" Map!
-        if(response.resp === '00' || response.resp === '90000') {
-           window.location.href = `/dashboard?success=true&ref=${transactionRef}&type=${itemType}`;
+      currency: "566",
+      mode: 'TEST',
+      onComplete: async function (response: any) {
+
+        
+        if (response.resp === '00' || response.resp === '90000') {
+          setIsProcessing(true);
+          const success = await confirmTransaction(trxRef);
+          
+          if (success) {
+            if (itemType === 'INVESTMENT') {
+              showToast("Investment verified! Redirecting to portfolio...", "success");
+              router.push(`/dashboard?ref=${trxRef}&status=success`);
+            } else {
+              showToast("Order confirmed! Redirecting to order details...", "success");
+              router.push(`/order-confirmation?ref=${trxRef}`);
+            }
+          } else {
+            showToast("Server verification failed. Please contact support.", "error");
+            setIsProcessing(false);
+          }
+        } else {
+          showToast(`Payment failed: ${response.desc || "Unknown error"}`, "error");
+          setIsProcessing(false);
         }
-        setLoading(false);
       }
     };
 
-    // @ts-ignore - The script is loaded globally in layout.tsx
-    if (typeof window !== 'undefined' && window.InterswitchPayweb) {
+    try {
       // @ts-ignore
-      let checkout = new window.InterswitchPayweb(paymentParams);
-      checkout.checkout();
-    } else {
-      alert(`Interswitch payment module initialized. Amount: ${amountNaira} NGN`);
-      setLoading(false);
+      if (typeof window !== 'undefined' && window.webpayCheckout) {
+        // @ts-ignore
+        window.webpayCheckout(paymentParams);
+      } else {
+        showToast("Payment module loading. Please wait a moment and retry.", "info");
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      console.error("Error triggering Interswitch Modal", error);
+      showToast("Failed to initialize payment gateway.", "error");
+      setIsProcessing(false);
     }
   };
 
   return (
     <Button 
-      onClick={handlePayment} 
-      disabled={loading} 
+      onClick={handleCheckout} 
+      disabled={isProcessing}
       className="w-full bg-[#004D40] hover:bg-[#002420] text-white"
     >
-      {loading ? "Initializing Secure Gateway..." : buttonText}
+      {isProcessing ? "Connecting to Interswitch..." : `Pay ₦${amountNaira.toLocaleString()}`}
     </Button>
   );
 }
