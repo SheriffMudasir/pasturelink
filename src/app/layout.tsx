@@ -34,7 +34,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* Page Content */}
-        <main className="pt-5 md:pt-10">{children}</main>
+        <main className="pt-7 md:pt-10">{children}</main>
 
         {/* External Script */}
         <Script src="https://qa.interswitchng.com/collections/public/javascripts/inline-checkout.js" strategy="lazyOnload" />

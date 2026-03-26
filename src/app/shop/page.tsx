@@ -11,7 +11,7 @@ export default function ShopPage() {
     <main className="min-h-screen bg-[#E8F5E9] p-8">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-4 pt-12">
-          <h1 className="text-5xl font-black text-[#004D40] tracking-tight">Marketplace</h1>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#004D40] tracking-tight">Marketplace</h1>
           <p className="text-xl text-[#004D40]/80 font-medium max-w-2xl mx-auto">
             Directly purchase premium, verified livestock from trusted herders.
           </p>

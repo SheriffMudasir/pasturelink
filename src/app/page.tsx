@@ -7,7 +7,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#E8F5E9] p-8 flex items-center justify-center">
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-4">
-          <h1 className="text-6xl font-black text-[#004D40] tracking-tight">Kwara NG</h1>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl sm:pt-5 font-black text-[#004D40] tracking-tight">Kwara NG</h1>
           <p className="text-xl text-[#004D40]/80 font-medium max-w-2xl mx-auto">
             The fintech-enabled agricultural platform bridging urban capital with rural agriculture. Securely powered by Interswitch.
           </p>
