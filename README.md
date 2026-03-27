@@ -4,7 +4,8 @@
 
 Built for the **Interswitch × Enyata Buildathon 2026** by Team PastureLink.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://buildathon.enyata.com/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://pasturelink.vercel.app/)
+[![Try It Out](https://img.shields.io/badge/Try--It--Out-blue?style=for-the-badge)](https://pasturelink.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Database-3FCF8E?style=flat-square&logo=supabase)](https://supabase.com/)
 [![Interswitch](https://img.shields.io/badge/Interswitch-Payments-blue?style=flat-square)](https://www.interswitchgroup.com/)
@@ -103,9 +104,9 @@ NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
 
 | Field | Value |
 |---|---|
-| Card Number | `5061 1811 1111 0626` |
-| Expiry | Any future date |
-| CVV | `112` |
+| Card Number | `5061 0502 5475 6707 864` |
+| Expiry | `06/26` |
+| CVV | `111` |
 | OTP | `123456` |
 
 ---
